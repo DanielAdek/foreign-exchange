@@ -1,22 +1,46 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
-import { Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import {INestApplication, Logger} from '@nestjs/common';
+import {NestFactory} from '@nestjs/core';
+import {DocumentBuilder, OpenAPIObject, SwaggerModule} from "@nestjs/swagger";
 
 import { AppModule } from './app/app.module';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
-  );
+class MainApiGateway {
+  private static readonly globalPrefix: string = "/api";
+
+  private static readonly port: number = parseInt(process.env.PORT, 10) || 8080;
+
+  private static appConfig(app: INestApplication) {
+    app.setGlobalPrefix(this.globalPrefix);
+    app.enableCors();
+    // app.useGlobalFilters(new GlobalExceptionFilter());
+  }
+
+  private static apiDocsConfig(app: INestApplication) {
+    const config: Omit<OpenAPIObject, "paths"> = new DocumentBuilder()
+      .setTitle('Forex Market APIs')
+      .setVersion('1.0.0')
+      .build();
+    const document: OpenAPIObject = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api-docs', app, document);
+  }
+
+  private static async main() {
+    const app = await NestFactory.create(AppModule);
+
+    this.appConfig(app);
+
+    this.apiDocsConfig(app);
+
+    await app.listen(process.env.PORT || 8080);
+
+    Logger.log(
+      `🚀 Application is running on: http://localhost:${this.port}/${this.globalPrefix}`
+    );
+  }
+
+  public static async run() {
+    await this.main()
+  }
 }
 
-bootstrap();
+MainApiGateway.run().catch(error => Logger.log(error.message));

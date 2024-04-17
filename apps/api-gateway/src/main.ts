@@ -5,14 +5,14 @@ import {DocumentBuilder, OpenAPIObject, SwaggerModule} from "@nestjs/swagger";
 import { AppModule } from './app/app.module';
 
 class MainApiGateway {
-  private static readonly globalPrefix: string = "/api";
+  private static readonly globalPrefix: string = "api";
 
-  private static readonly port: number = parseInt(process.env.PORT, 10) || 8080;
+  private static readonly port: number = parseInt(process.env.PORT, 10) || 8000;
 
   private static appConfig(app: INestApplication) {
     app.setGlobalPrefix(this.globalPrefix);
     app.enableCors();
-    // app.useGlobalFilters(new GlobalExceptionFilter());
+    // auth.useGlobalFilters(new GlobalExceptionFilter());
   }
 
   private static apiDocsConfig(app: INestApplication) {

@@ -1,25 +1,19 @@
 import {INestApplication, Logger} from '@nestjs/common';
 import {NestFactory} from '@nestjs/core';
 
-import { AppModule } from './app/app.module';
+import { AuthModule } from './auth/auth.module';
 import {GrpcOptions, MicroserviceOptions, Transport} from "@nestjs/microservices";
 import * as path from "path";
 
 const logger: Logger = new Logger("MAIN:AUTHENTICATION");
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AuthModule, {
     transport: Transport.GRPC,
     options: {
-      host: '0.0.0.0',
-      port: process.env.PORT,
+      url: "0.0.0.0:50051",
       package: 'auth',
-      protoPath: path.join(__dirname, 'auth/auth.proto'),
-      loaders: {
-        enums: String,
-        objects: true,
-        arrays: true,
-      },
+      protoPath: path.join(__dirname, "../../../libs/_proto/auth.proto"),
     },
   } as GrpcOptions);
   await app.listen();

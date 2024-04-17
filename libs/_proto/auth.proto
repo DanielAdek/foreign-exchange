@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package auth;
+
+service AuthService {
+  rpc authenticate (authPayloadDto) returns (apiResponse) {}
+  rpc register (authPayloadDto) returns (apiResponse) {}
+}
+
+message authPayloadDto {
+  string email = 1;
+  string password = 2;
+}
+
+message apiResponse {
+  string message = 1;
+  bool status = 2;
+  string statusCode = 3;
+  Auth data = 4;
+}
+
+message Auth {
+  string authId = 1;
+  string email = 2;
+  string createdAt = 3;
+  string updatedAt = 4;
+}

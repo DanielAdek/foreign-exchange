@@ -2,7 +2,10 @@
   "name": "@forexorg/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "nx run-many --target=serve --projects=api-gateway,auth-service",
+    "start:dev": "nx run-many --target=serve --projects=api-gateway,auth-service"
+  },
   "private": true,
   "dependencies": {
     "@grpc/grpc-js": "^1.10.6",
@@ -12,10 +15,15 @@
     "@nestjs/microservices": "^10.3.7",
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/swagger": "^7.3.1",
+    "@nestjs/typeorm": "^10.0.2",
     "axios": "^1.6.0",
+    "bcrypt": "^5.1.1",
+    "class-validator": "^0.14.1",
+    "mongodb": "^5.9.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@nestjs/schematics": "^10.0.1",

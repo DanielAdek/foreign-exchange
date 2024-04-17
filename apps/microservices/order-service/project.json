@@ -1,0 +1,24 @@
+{
+  "name": "microservices-order-service",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/microservices/order-service/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "microservices-order-service:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "microservices-order-service:build:development"
+        },
+        "production": {
+          "buildTarget": "microservices-order-service:build:production"
+        }
+      }
+    }
+  }
+}

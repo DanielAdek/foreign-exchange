@@ -1,6 +1,6 @@
 import {ExceptionFilter, Catch, ArgumentsHost, HttpStatus} from '@nestjs/common';
 import { Response } from 'express';
-import {ApiResponseBuilder} from "../response/api.response";
+import {ApiResponseBuilder} from "../../../../libs/presentation/response/api.response";
 import {HttpArgumentsHost} from "@nestjs/common/interfaces";
 
 @Catch()

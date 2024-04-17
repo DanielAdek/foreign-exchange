@@ -1,0 +1,24 @@
+{
+  "name": "microservices-integration-service",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/microservices/integration-service/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "microservices-integration-service:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "microservices-integration-service:build:development"
+        },
+        "production": {
+          "buildTarget": "microservices-integration-service:build:production"
+        }
+      }
+    }
+  }
+}

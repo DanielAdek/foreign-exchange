@@ -1,7 +1,8 @@
 import {HttpStatus} from "@nestjs/common";
-import {ResponseStatus} from "../enum/response_status.enum";
+import {ResponseStatus} from "../../../apps/api-gateway/src/enum/response_status.enum";
+import {IApiResponse, IApiResponseBuilder} from "../interface/api-response.interface";
 
-export class ApiResponse {
+export class ApiResponse implements IApiResponseBuilder {
   private readonly data;
 
   constructor() {
@@ -29,26 +30,26 @@ export class ApiResponse {
   }
 
   public success(): ApiResponse {
-    this.setMessage(ResponseStatus.SUCCESS).setStatus(true).setStatusCode(HttpStatus.OK);
+    this.reset().setMessage(ResponseStatus.SUCCESS).setStatus(true).setStatusCode(HttpStatus.OK);
     return this;
   }
 
   public failed(): ApiResponse {
-    this.setMessage(ResponseStatus.FAILED).setStatus(false).setStatusCode(HttpStatus.BAD_REQUEST);
+    this.reset().setMessage(ResponseStatus.FAILED).setStatus(false).setStatusCode(HttpStatus.BAD_REQUEST);
     return this;
   }
 
-  public error(): ApiResponse {
-    this.setMessage(ResponseStatus.ERROR).setStatus(false).setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+  public error(err?: string): ApiResponse {
+    this.reset().setMessage(ResponseStatus.ERROR || err).setStatus(false).setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
     return this;
   }
 
-  public clear(): ApiResponse {
+  public reset(): ApiResponse {
     this.data.clear();
     return this;
   }
 
-  public build() {
+  public build(): IApiResponse {
     return Object.fromEntries(this.data);
   }
 }
